@@ -1,0 +1,22 @@
+{
+  "name": "parana-banco-challenge",
+  "version": "1.0.0",
+  "description": "Test suite for testing /users api",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "mocha test/**/*.test.js --reporter mochawesome"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.3.6",
+    "chai-http": "^4.3.0",
+    "chai-json-schema": "^1.5.1",
+    "mocha": "^10.0.0",
+    "mochawesome": "^7.1.3"
+  },
+  "dependencies": {
+    "axios": "^0.27.2"
+  }
+}
