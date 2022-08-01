@@ -1,4 +1,4 @@
-# Paraná Banco Challenge - Testes de API REST Automatizados
+# Testes de API REST Automatizados
 ## Descrição
 Aplicação desenvolvida para antender ao requisito de testes de API REST automatizados.
 
