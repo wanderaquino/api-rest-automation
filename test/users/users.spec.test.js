@@ -25,10 +25,12 @@ describe("Test suite for /GET Users endpoint", () => {
     });
 
     it("Shoud return an user by id", async () => {
-        const id = 10;
-        const response = await api.get(`/users/${id}`);
-        const {status, data} = response;
-        const {name, username, email} = response.data;
+        const BASE_URL = "http://jsonplaceholder.typicode.com/users/10";
+        stub
+            .withArgs(BASE_URL)
+            .resolves(userById);
+        const response = await service.makeRequest(BASE_URL);
+        const {name, username, email} = response;
 
         expect(200).to.be.equal(status);
         expect("Clementina DuBuque").to.equal(name);
