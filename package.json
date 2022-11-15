@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Test suite for testing /users api",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "test": "mocha test/**/*.test.js --reporter mochawesome"
   },
