@@ -32,56 +32,45 @@ describe("Test suite for /GET Users endpoint", () => {
         const response = await service.makeRequest(BASE_URL);
         const {name, username, email} = response;
 
-        expect(200).to.be.equal(status);
-        expect("Clementina DuBuque").to.equal(name);
-        expect("Moriah.Stanton").to.equal(username);
-        expect("Rey.Padberg@karina.biz").to.equal(email);
-        expect(data).to.be.jsonSchema(userSchema);
+        chai.expect("Clementina DuBuque").to.equal(name);
+        chai.expect("Moriah.Stanton").to.equal(username);
+        chai.expect("Rey.Padberg@karina.biz").to.equal(email);
+        chai.expect(response).to.be.jsonSchema(userSchema);
 
     });
 
     it("Shoud not find a user by unknown id", async () => {
         const id = 0;
-        try {
-            await api.get(`/users/${id}`);
-        }
-        catch (error) {
-            const {status, statusText, data} = error.response;
-            expect(404).to.be.equal(status);
-            expect("Not Found").to.be.equal(statusText);
-            expect({}).to.deep.equal(data);
-        }
+        const BASE_URL = `http://jsonplaceholder.typicode.com/users/${id}`;
+        stub
+            .withArgs(`http://jsonplaceholder.typicode.com/users/${id}`)
+            .resolves(emptyUser);
+
+        const response = await service.makeRequest(BASE_URL);
+
+        chai.expect({}).to.be.deep.equal(emptyUser);
     });
 });
 
-describe("Test suite for /POST Users endpoint", () => {
-    it("Should create a new user", async () => {
-        const response = await api.post("/users", newUser);
-        const {status, data}  = response;
-        expect(201).to.be.equal(status);
-        expect(data).to.be.jsonSchema(userSchema);
-    });
-});
+// describe("Test suite for /POST Users endpoint", () => {
+//     it("Should create a new user", async () => {
+//         const response = await api.post("/users", newUser);
+//         const {status, data}  = response;
+//         expect(201).to.be.equal(status);
+//         expect(data).to.be.jsonSchema(userSchema);
+//     });
+// });
 
-describe("Test suite for /DELETE Users endpoint", () => {
-    it("Should delete a existing user", async () => {
-        const id = 10;
-        const response = await api.delete(`/users/${id}`);
-        const {status, data} = response;
+// describe("Test suite for /DELETE Users endpoint", () => {
+//     it("Should delete a existing user", async () => {
+//         const id = 10;
+//         const response = await api.delete(`/users/${id}`);
+//         const {status, data} = response;
 
-        expect(200).to.be.equal(status);
-        expect({}).to.deep.equal(data);
-    });
-});
-
-describe("Test suite for /PUT Users endpoint", () => {
-    it("Should update an existing user by id", async () => {
-        const id = 5;
-        const response = await api.put(`/users/${id}`, newUser);
-        const {status, data} = response;
-        expect(200).to.be.equal(status);
-        expect(data).to.be.jsonSchema(userSchema);
-    });
+//         expect(200).to.be.equal(status);
+//         expect({}).to.deep.equal(data);
+//     });
+// });
 
     it("Should not update a user by unknown id ", async () => {
         const id = 0;
