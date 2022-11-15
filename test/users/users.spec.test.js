@@ -13,17 +13,14 @@ const stub = sinon.stub(service, service.makeRequest.name);
 
 describe("Test suite for /GET Users endpoint", () => {
     it("Shoud return a array of users", async () => {
-
-        const response = await api.get("/users");
-        const {"content-type": contentType} = response.headers;
-        const {status} = response;
-
-        expect(200).to.equal(status);
-        expect("application/json; charset=utf-8").to.equal(contentType);
-        expect(response.data).to.be.an("Array");
-        
-        response.data.forEach(user => {
-            expect(user).to.be.jsonSchema(userSchema);
+        const BASE_URL = "http://jsonplaceholder.typicode.com/users";
+        stub
+            .withArgs(BASE_URL)
+            .resolves(users);
+        const response = await service.getUsers(BASE_URL);
+        chai.expect(response).to.be.an("Array");
+        response.forEach(user => {
+            chai.expect(user).to.be.jsonSchema(userSchema);
         });
     });
 
