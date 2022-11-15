@@ -1,8 +1,11 @@
-import {api} from "../../services/api.js";
-import {newUser} from "../../helpers/data.js";
-import {userSchema} from "../../schemas/schemas.js";
-import chai, {expect} from "chai";
-import jsonSchema from "chai-json-schema";
+const newUser = require("../../helpers/data.js");
+const userSchema = require("../../schemas/schemas.js");
+const chai = require("chai");
+const jsonSchema = require("chai-json-schema");
+const sinon = require("sinon");
+const Service = require("../../src/service.js");
+const {users, userById, emptyUser} = require("../../database");
+
 chai.use(jsonSchema);
 
 
