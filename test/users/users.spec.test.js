@@ -72,16 +72,25 @@ describe("Test suite for /GET Users endpoint", () => {
 //     });
 // });
 
-    it("Should not update a user by unknown id ", async () => {
-        const id = 0;
-        try {
-            await api.put(`/users/${id}`, newUser);
-        }
-        catch (error) {
-            const {status, statusText, data} = error.response;
-            expect(500).to.be.equal(status);
-            expect("Internal Server Error").to.be.equal(statusText);
-        }
-    });
-})
+// describe("Test suite for /PUT Users endpoint", () => {
+//     it("Should update an existing user by id", async () => {
+//         const id = 5;
+//         const response = await api.put(`/users/${id}`, newUser);
+//         const {status, data} = response;
+//         expect(200).to.be.equal(status);
+//         expect(data).to.be.jsonSchema(userSchema);
+//     });
+
+//     it("Should not update a user by unknown id ", async () => {
+//         const id = 0;
+//         try {
+//             await api.put(`/users/${id}`, newUser);
+//         }
+//         catch (error) {
+//             const {status, statusText, data} = error.response;
+//             expect(500).to.be.equal(status);
+//             expect("Internal Server Error").to.be.equal(statusText);
+//         }
+//     });
+// })
 
