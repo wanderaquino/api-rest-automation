@@ -1,4 +1,4 @@
-export const userSchema = {
+const userSchema = {
     title: "Unique user schema",
     type: "object",
     required: ["id","name", "username","email", "address", "phone", "website", "company"],
@@ -67,3 +67,5 @@ export const userSchema = {
         }
     }
 }
+
+module.exports = userSchema;
