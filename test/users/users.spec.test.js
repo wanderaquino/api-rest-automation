@@ -8,6 +8,8 @@ const {users, userById, emptyUser} = require("../../database");
 
 chai.use(jsonSchema);
 
+const service = new Service();
+const stub = sinon.stub(service, service.makeRequest.name);
 
 describe("Test suite for /GET Users endpoint", () => {
     it("Shoud return a array of users", async () => {
