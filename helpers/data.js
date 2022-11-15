@@ -1,4 +1,4 @@
-export const newUser = {
+const newUser = {
     name: "Paraná Bank Test",
     username: "Parana.Bank",
     email: "parana.bank@parabank.com",
@@ -20,3 +20,5 @@ export const newUser = {
       bs: "Delivery money"
     }
   };
+
+module.exports = newUser;
