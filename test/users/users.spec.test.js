@@ -3,7 +3,7 @@ const chai = require("chai");
 const jsonSchema = require("chai-json-schema");
 const sinon = require("sinon");
 const Service = require("../../src/service.js");
-const {users, userById, emptyUser} = require("../../database");
+const {users, userById, emptyUser, newUser} = require("../../database");
 
 chai.use(jsonSchema);
 
