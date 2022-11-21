@@ -1,3 +1,4 @@
+const { request } = require("http");
 const https = require("https");
 
 class Service {
@@ -24,6 +25,22 @@ class Service {
             request.write(postData);
             request.end();
         })
+    };
+
+    async makePutRequest(requestUrl, requestPath, putData) {
+        return new Promise ((resolve, reject) => {
+            const request = https.request({
+                hostname: requestUrl,
+                path: requestPath,
+                method: "PUT"
+            }, (response) => {
+                response.on("data", response => resolve(response));
+                response.on("erro", reject);
+            });
+            request.write(putData);
+            request.end();
+        })
+
     }
 
     async getUsers(url) {
@@ -33,6 +50,11 @@ class Service {
 
     async postUser(url, path, data) {
         const response = await this.makePostRequest(url, path, data);
+        return response;
+    }
+
+    async putUser(url, path, data) {
+        const response = await this.makePutRequest(url, path, data);
         return response;
     }
 }
