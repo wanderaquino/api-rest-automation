@@ -50,7 +50,7 @@ describe("Test suite for /GET Users endpoint", () => {
 
         const response = await service.makeRequest(BASE_URL);
 
-        chai.expect({}).to.be.deep.equal(emptyUser);
+        chai.expect(response).to.be.deep.equal(emptyUser);
     });
 });
 
@@ -66,13 +66,13 @@ describe("Test suite for /DELETE Users endpoint", () => {
     it("Should delete a existing user", async () => {
         const id = 10;
         stubDelete
-            .withArgs("jsonplaceholder.typicode.com",`/users${id}`)
+            .withArgs("jsonplaceholder.typicode.com",`/users/${id}`)
             .resolves({
                 statusCode: 200,
                 statusText: "OK",
                 data: {}
             })
-        const response = await service.deleteUser("jsonplaceholder.typicode.com",`/users${id}`);
+        const response = await service.deleteUser("jsonplaceholder.typicode.com",`/users/${id}`);
         const {statusCode, data, statusText} = response;
         chai.expect(statusCode).to.be.equal(200);
         chai.expect(statusText).to.be.equal("OK");
@@ -84,21 +84,21 @@ describe("Test suite for /PUT Users endpoint", () => {
     it("Should update an existing user by id", async () => {
         const id = 5;
         stubPut
-            .withArgs("jsonplaceholder.typicode.com",`/users${id}`, JSON.stringify(newUser))
-            .resolves({statusCode: 200, data: {}});
+            .withArgs("jsonplaceholder.typicode.com",`/users/${id}`, JSON.stringify(newUser))
+            .resolves({statusCode: 200, data: {id}});
 
-        const response = await service.putUser("jsonplaceholder.typicode.com",`/users${id}`, JSON.stringify(newUser));
+        const response = await service.putUser("jsonplaceholder.typicode.com",`/users/${id}`, JSON.stringify(newUser));
         const {statusCode, data} = response;
-        chai.expect(200).to.be.equal(statusCode);
-        chai.expect(data).to.be.deep.equal({});
+        chai.expect(statusCode).to.be.equal(200);
+        chai.expect(data).to.be.deep.equal({id});
     });
 
     it("Should not update a user by unknown id ", async () => {
         const id = 0;
         stubPut
-            .withArgs("jsonplaceholder.typicode.com",`/users${id}`, JSON.stringify(newUser))
+            .withArgs("jsonplaceholder.typicode.com",`/users/${id}`, JSON.stringify(newUser))
             .resolves({statusCode: 500, statusText: "Internal Server Error"});
-        const response = await service.putUser("jsonplaceholder.typicode.com",`/users${id}`, JSON.stringify(newUser));
+        const response = await service.putUser("jsonplaceholder.typicode.com",`/users/${id}`, JSON.stringify(newUser));
         const {statusCode, statusText} = response;
         chai.expect(statusCode).to.be.equal(500);
         chai.expect(statusText).to.be.equal("Internal Server Error");
