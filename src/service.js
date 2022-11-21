@@ -10,9 +10,30 @@ class Service {
         })
     };
 
-    async getUsers(usersEndpoint) {
-        const users = await this.makeRequest(usersEndpoint);
-        return users;
+    async makePostRequest(requestUrl, requestPath, postData) {
+        return new Promise((resolve, reject) => {
+            const request = https.request({
+                hostname: requestUrl,
+                path: requestPath,
+                method: "POST"
+            }, (response) => {
+                let responseData = "";
+                response.on("data", fragment => resolve(JSON.stringify(responseData += fragment)));
+                response.on("error", reject);
+            });
+            request.write(postData);
+            request.end();
+        })
+    }
+
+    async getUsers(url) {
+        const response = await this.makeRequest(url);
+        return response;
+    }
+
+    async postUser(url, path, data) {
+        const response = await this.makePostRequest(url, path, data);
+        return response;
     }
 }
 
