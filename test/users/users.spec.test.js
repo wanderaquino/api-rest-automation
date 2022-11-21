@@ -11,7 +11,7 @@ const service = new Service();
 const stub = sinon.stub(service, service.makeRequest.name);
 const stubPost = sinon.stub(service, service.makePostRequest.name);
 const stubPut = sinon.stub(service, service.makePutRequest.name);
-
+const stubDelete = sinon.stub(service, service.makeDeleteRequest.name);
 
 describe("Test suite for /GET Users endpoint", () => {
     it("Shoud return a array of users", async () => {
@@ -62,16 +62,23 @@ describe("Test suite for /POST Users endpoint", () => {
     });
 });
 
-// describe("Test suite for /DELETE Users endpoint", () => {
-//     it("Should delete a existing user", async () => {
-//         const id = 10;
-//         const response = await api.delete(`/users/${id}`);
-//         const {status, data} = response;
-
-//         expect(200).to.be.equal(status);
-//         expect({}).to.deep.equal(data);
-//     });
-// });
+describe("Test suite for /DELETE Users endpoint", () => {
+    it("Should delete a existing user", async () => {
+        const id = 10;
+        stubDelete
+            .withArgs("jsonplaceholder.typicode.com",`/users${id}`)
+            .resolves({
+                statusCode: 200,
+                statusText: "OK",
+                data: {}
+            })
+        const response = await service.deleteUser("jsonplaceholder.typicode.com",`/users${id}`);
+        const {statusCode, data, statusText} = response;
+        chai.expect(statusCode).to.be.equal(200);
+        chai.expect(statusText).to.be.equal("OK");
+        chai.expect(data).to.deep.equal({});
+    });
+});
 
 describe("Test suite for /PUT Users endpoint", () => {
     it("Should update an existing user by id", async () => {
