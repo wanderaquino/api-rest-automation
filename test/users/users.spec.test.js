@@ -52,14 +52,13 @@ describe("Test suite for /GET Users endpoint", () => {
     });
 });
 
-// describe("Test suite for /POST Users endpoint", () => {
-//     it("Should create a new user", async () => {
-//         const response = await api.post("/users", newUser);
-//         const {status, data}  = response;
-//         expect(201).to.be.equal(status);
-//         expect(data).to.be.jsonSchema(userSchema);
-//     });
-// });
+describe("Test suite for /POST Users endpoint", () => {
+    it("Should create a new user", async () => {
+        stubPost.withArgs("jsonplaceholder.typicode.com","/users", JSON.stringify(newUser)).resolves(JSON.stringify({id: 11}));
+        const response = await service.postUser("jsonplaceholder.typicode.com","/users", JSON.stringify(newUser));
+        chai.expect(response).to.be.deep.equal(JSON.stringify({id: 11}))
+    });
+});
 
 // describe("Test suite for /DELETE Users endpoint", () => {
 //     it("Should delete a existing user", async () => {
