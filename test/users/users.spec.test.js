@@ -9,6 +9,7 @@ chai.use(jsonSchema);
 
 const service = new Service();
 const stub = sinon.stub(service, service.makeRequest.name);
+const stubPost = sinon.stub(service, service.makePostRequest.name);
 
 describe("Test suite for /GET Users endpoint", () => {
     it("Shoud return a array of users", async () => {
