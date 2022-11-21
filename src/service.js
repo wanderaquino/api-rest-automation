@@ -34,8 +34,9 @@ class Service {
                 path: requestPath,
                 method: "PUT"
             }, (response) => {
-                response.on("data", response => resolve(response));
-                response.on("erro", reject);
+                let frag = "";
+                response.on("data", response => resolve(frag += response));
+                response.on("error", reject);
             });
             request.write(putData);
             request.end();
@@ -50,7 +51,7 @@ class Service {
                 method: "DELETE"
             }, (response) => {
                 response.on("data", response => resolve(response));
-                response.on("erro", reject);
+                response.on("error", reject);
             });
             request.end();
         })
