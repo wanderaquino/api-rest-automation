@@ -1,4 +1,3 @@
-const newUser = require("../../helpers/data.js");
 const userSchema = require("../../schemas/schemas.js");
 const chai = require("chai");
 const jsonSchema = require("chai-json-schema");
