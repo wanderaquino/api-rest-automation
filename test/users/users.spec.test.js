@@ -10,6 +10,8 @@ chai.use(jsonSchema);
 const service = new Service();
 const stub = sinon.stub(service, service.makeRequest.name);
 const stubPost = sinon.stub(service, service.makePostRequest.name);
+const stubPut = sinon.stub(service, service.makePutRequest.name);
+
 
 describe("Test suite for /GET Users endpoint", () => {
     it("Shoud return a array of users", async () => {
@@ -71,25 +73,27 @@ describe("Test suite for /POST Users endpoint", () => {
 //     });
 // });
 
-// describe("Test suite for /PUT Users endpoint", () => {
-//     it("Should update an existing user by id", async () => {
-//         const id = 5;
-//         const response = await api.put(`/users/${id}`, newUser);
-//         const {status, data} = response;
-//         expect(200).to.be.equal(status);
-//         expect(data).to.be.jsonSchema(userSchema);
-//     });
+describe("Test suite for /PUT Users endpoint", () => {
+    it("Should update an existing user by id", async () => {
+        const id = 5;
+        stubPut
+            .withArgs("jsonplaceholder.typicode.com",`/users${id}`, JSON.stringify(newUser))
+            .resolves({statusCode: 200, data: {}});
 
-//     it("Should not update a user by unknown id ", async () => {
-//         const id = 0;
-//         try {
-//             await api.put(`/users/${id}`, newUser);
-//         }
-//         catch (error) {
-//             const {status, statusText, data} = error.response;
-//             expect(500).to.be.equal(status);
-//             expect("Internal Server Error").to.be.equal(statusText);
-//         }
-//     });
-// })
+        const response = await service.putUser("jsonplaceholder.typicode.com",`/users${id}`, JSON.stringify(newUser));
+        const {statusCode, data} = response;
+        chai.expect(200).to.be.equal(statusCode);
+        chai.expect(data).to.be.deep.equal({});
+    });
 
+    it("Should not update a user by unknown id ", async () => {
+        const id = 0;
+        stubPut
+            .withArgs("jsonplaceholder.typicode.com",`/users${id}`, JSON.stringify(newUser))
+            .resolves({statusCode: 500, statusText: "Internal Server Error"});
+        const response = await service.putUser("jsonplaceholder.typicode.com",`/users${id}`, JSON.stringify(newUser));
+        const {statusCode, statusText} = response;
+        chai.expect(statusCode).to.be.equal(500);
+        chai.expect(statusText).to.be.equal("Internal Server Error");
+    })
+});
