@@ -40,7 +40,20 @@ class Service {
             request.write(putData);
             request.end();
         })
+    }
 
+    async makeDeleteRequest(requestUrl, requestPath) {
+        return new Promise ((resolve, reject) => {
+            const request = https.request({
+                hostname: requestUrl,
+                path: requestPath,
+                method: "DELETE"
+            }, (response) => {
+                response.on("data", response => resolve(response));
+                response.on("erro", reject);
+            });
+            request.end();
+        })
     }
 
     async getUsers(url) {
@@ -55,6 +68,11 @@ class Service {
 
     async putUser(url, path, data) {
         const response = await this.makePutRequest(url, path, data);
+        return response;
+    }
+
+    async deleteUser(url, path) {
+        const response = await this.makeDeleteRequest(url, path);
         return response;
     }
 }
